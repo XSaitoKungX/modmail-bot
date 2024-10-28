@@ -1,4 +1,3 @@
-```markdown
 # 📬 Advanced Modmail Discord Bot
 
 Ein professioneller, voll funktionsfähiger Modmail-Bot für Discord, entwickelt mit `discord.js` v14.16.3. Unterstützt **Prefix- und Slash-Befehle**, **mehrsprachige Unterstützung**, und ein **Dashboard** für einfache Verwaltung. 
@@ -172,4 +171,3 @@ Dieses Projekt steht unter der [MIT-Lizenz](https://opensource.org/licenses/MIT)
 ---
 
 Danke fürs Nutzen des Modmail-Bots! 🙌 Feedback und Vorschläge sind jederzeit willkommen.
-```
