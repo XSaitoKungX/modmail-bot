@@ -39,7 +39,7 @@ Ein professioneller, voll funktionsfähiger Modmail-Bot für Discord, entwickelt
 
 1. **Repository klonen**
    ```bash
-   git clone https://github.com/dein-username/modmail-bot.git
+   git clone https://github.com/XSaitoKungX/modmail-bot.git
    cd modmail-bot
    ```
 
