@@ -1,31 +1,36 @@
+// handlers/commandHandler.js
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 
 module.exports = (client) => {
     client.commands = new Map();
-    client.slashCommands = new Map();
+    client.prefixCommands = new Map();
 
-    const loadCommands = (dir) => {
+    // Load all prefix commands from the /messages folder
+    const loadPrefixCommands = (dir) => {
         fs.readdirSync(dir).forEach(file => {
             const filePath = path.join(dir, file);
-
-            if (fs.statSync(filePath).isDirectory()) {
-                loadCommands(filePath);
-            } else if (file.endsWith('.js')) {
+            if (file.endsWith('.js')) {
                 const command = require(filePath);
-
-                // Differentiation between prefix and slash commands
-                if (command.slashCommand) {
-                    client.slashCommands.set(command.data.name, command);
-                    console.log(chalk.green(`[Loaded SlashCommand] ${command.data.name}`));
-                } else {
-                    client.commands.set(command.name, command);
-                    console.log(chalk.backgroundColorNames(`[Loaded Prefix Command] ${command.name}`));
-                }
+                client.prefixCommands.set(command.name, command);
+                console.log(chalk.blue(`[Loaded Prefix Command] ${command.name}`));
             }
         });
     };
 
-    loadCommands(path.join(__dirname, '../commands'));
+    // Load all slash commands from the /commands folder
+    const loadSlashCommands = (dir) => {
+        fs.readdirSync(dir).forEach(file => {
+            const filePath = path.join(dir, file);
+            if (file.endsWith('.js')) {
+                const command = require(filePath);
+                client.commands.set(command.data.name, command);
+                console.log(chalk.green(`[Loaded Slash Command] ${command.data.name}`));
+            }
+        });
+    };
+
+    loadPrefixCommands(path.join(__dirname, '../messages'));
+    loadSlashCommands(path.join(__dirname, '../commands'));
 };
