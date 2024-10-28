@@ -1,17 +1,10 @@
+const { createModmailThread } = require('../utils/modmailUtils');
+const { getMessage } = require('../utils/languageManager');
+
 module.exports = async (client, message) => {
-    const prefix = '!'; // Beispiel-Prefix
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    if (message.author.bot || message.guild) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-    const command = client.prefixCommands.get(commandName);
+    const modmailChannel = await createModmailThread(client, message.author);
 
-    if (command) {
-        try {
-            await command.execute(client, message, args);
-        } catch (error) {
-            console.error(error);
-            message.reply('There was an error executing that command.');
-        }
-    }
+    modmailChannel.send(`New Modmail from ${message.author.tag}:\n${message.content}`);
 };
