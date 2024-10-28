@@ -30,13 +30,11 @@ const error = (message) => console.log(chalk.red('[ERROR]'), message);
 const loadEvents = (dir) => {
     fs.readdirSync(dir).forEach(file => {
         const filePath = path.join(dir, file);
-        if (fs.statSync(filePath).isDirectory()) {
-            loadEvents(filePath);
-        } else if (file.endsWith('.js')) {
+        if (file.endsWith('.js')) {
             const event = require(filePath);
             const eventName = file.split('.')[0];
             client.on(eventName, event.bind(null, client));
-            success(`Loaded event: ${chalk.bold(eventName)}`);
+            console.log(chalk.green(`[Loaded Event] ${eventName}`));
         }
     });
 };
