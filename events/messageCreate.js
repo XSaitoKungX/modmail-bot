@@ -2,9 +2,21 @@ const { createModmailThread } = require('../utils/modmailUtils');
 const { getMessage } = require('../utils/languageManager');
 
 module.exports = async (client, message) => {
-    if (message.author.bot || message.guild) return;
+    if (message.author.bot) return;
 
-    const modmailChannel = await createModmailThread(client, message.author);
+    if (message.guild) {
+        // Modmail Antwort: Nachricht von einem Moderator in einem Modmail-Thread
+        if (message.channel.name.startsWith('modmail-')) {
+            const userId = message.channel.name.split('-')[1];
+            const user = await client.users.fetch(userId);
 
-    modmailChannel.send(`New Modmail from ${message.author.tag}:\n${message.content}`);
+            if (user) {
+                user.send(`Reply from ${message.author.tag}:\n${message.content}`);
+            }
+        }
+    } else {
+        // Nachricht ist eine DM, also Modmail starten
+        const modmailChannel = await createModmailThread(client, message.author);
+        modmailChannel.send(`New Modmail from ${message.author.tag}:\n${message.content}`);
+    }
 };
