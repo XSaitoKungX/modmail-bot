@@ -4,6 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 
+const loadCommands = require('./handlers/commandHandler');
+const loadEvents = require('./handlers/eventHandler');
+
 const client = new Client({
     intents: [
         GatewayIntentBits.DirectMessageReactions,
@@ -21,7 +24,6 @@ const client = new Client({
     ]
 });
 
-// Konsolenhilfe mit Farben
 const log = (message) => console.log(chalk.blue('[INFO]'), message);
 const success = (message) => console.log(chalk.green('[SUCCESS]'), message);
 const error = (message) => console.log(chalk.red('[ERROR]'), message);
@@ -39,17 +41,8 @@ const loadEvents = (dir) => {
     });
 };
 
-// Lade Events (später werden wir Events im events-Ordner hinzufügen)
-loadEvents(path.join(__dirname, 'events'));
-
-// Command-Handler (dieser Bereich wird später ergänzt)
-const loadCommands = () => {
-    // Placeholder für das Laden der Befehle
-    log('Commands are being loaded...');
-};
-
-// Führe Command-Handler aus
-loadCommands();
+loadCommands(client);
+loadEvents(client);
 
 // Logge den Start
 client.once('ready', () => {
@@ -59,7 +52,7 @@ client.once('ready', () => {
     log(`Commands and event handlers are now being loaded...`);
 });
 
-// Login über Token in der .env-Datei
+// Login via Token in the .env-file
 client.login(process.env.TOKEN).then(() => {
     success(`Successfully logged in!`);
 }).catch(err => {
