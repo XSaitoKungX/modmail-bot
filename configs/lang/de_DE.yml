@@ -1,0 +1,5 @@
+greetings:
+  welcome: "Willkommen beim Modmail!"
+  received: "Deine Nachricht wurde empfangen. Unsere Moderatoren werden sich bald bei dir melden."
+errors:
+  not_found: "Befehl nicht gefunden."
